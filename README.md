@@ -19,6 +19,7 @@ Hypotheses
 
 ![Image text](https://github.com/Evokic/final_projects/blob/master/img/top5_state_college.jpg)
 ![Image text](https://github.com/Evokic/final_projects/blob/master/img/R-Squared%20between%20Four%20Education%20Degrees.jpg)
+![Image test](https://github.com/Evokic/final_projects/blob/master/img/Education.PNG)
 ![Image text](https://github.com/Evokic/final_projects/blob/master/img/Normalization.jpg)
 ![Image text](https://github.com/Evokic/final_projects/blob/master/img/Unemployment_eduatt.jpg)
 
