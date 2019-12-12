@@ -1,5 +1,8 @@
-# final_projects
 # The Effect of Education on Society
+
+- Exploring possible relationships among unemployment, education attainment, poverty in the United States.
+
+
 Overview of Dataset
 - Education Data
 Number of people receive four degrees( < high school, high school, associate, college) separately. 
