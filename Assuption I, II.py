@@ -23,9 +23,12 @@ def state_abbrev(state_name):
     :param state_name: full state name
     :return: abbreviation for each state
 
-    >>> state_name = pd.DataFrame(['Alabama', 'Alaska', 'Arizona'])
+    >>> state_name = pd.Series(['Alabama', 'Alaska', 'Arizona'])
     >>> state_abbrev(state_name)
-    ['AL', 'AK', 'AZ']
+    0    AL
+    1    AK
+    2    AZ
+    dtype: object
     """
     us_state_abbrev = {'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR',
         'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE',
@@ -43,7 +46,7 @@ def state_abbrev(state_name):
     }
     return state_name.map(us_state_abbrev)
 
-df = pd.read_excel("Education.xls")
+df = pd.read_excel("data/Education.xls")
 
 # modify columns
 df['Total adults in 1970'] = df['Less than a high school diploma, 1970'] / (df['Percent of adults with less than a high school diploma, 1970']/100)
@@ -100,7 +103,7 @@ desc_state_2000 = state.sort_values(by = 'Percentage less_than_high_school 2000'
 desc_state_2017 = state.sort_values(by = 'Percentage less_than_high_school 2013-17', ascending=True)
 
 # Assumption II
-poverty = pd.read_csv("poverty.csv", dtype={"Total":'Int64', "Number":"Int64"})
+poverty = pd.read_csv("data/poverty.csv", dtype={"Total":'Int64', "Number":"Int64"})
 poverty['Percentage'] = get_percentage(poverty['Number'], poverty['Total'])
 
 year = [1980, 1990, 2000, 2010, 2017]
