@@ -3,23 +3,26 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Assumption I
-# read data
 def get_percentage(a, b):
-    """Calcuate percentage
+    """This function is used to calcuate percentage. Given two data, the function will return the percentage of a and b
     :param a: Denominator to calcuate the percentage
            b: Numerator to calcuate the percentage
-    :return pec: double
-        the percentage of a/b
+    :return: the percentage of a/b
     >>> a = 2
     >>> b = 4
     >>> get_percentage(a,b)
     0.5
+    >>> a = 4
+    >>> b = 10
+    >>> get_percentage(a,b)
+    0.4
     """
     perc = a/b
     return perc
 
 def state_abbrev(state_name):
-    """ change full state name to state abbreviation
+    """This function will convert full state name to state abbreviation. Given a full state name, the function will return
+        abbreviation of the state.
     :param state_name: full state name
     :return: abbreviation for each state
 
@@ -28,6 +31,13 @@ def state_abbrev(state_name):
     0    AL
     1    AK
     2    AZ
+    dtype: object
+    >>> state_name = pd.Series(['Florida', 'Georgia', 'Hawaii', 'Iowa'])
+    >>> state_abbrev(state_name)
+    0    FL
+    1    GA
+    2    HI
+    3    IA
     dtype: object
     """
     us_state_abbrev = {'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR',
