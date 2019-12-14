@@ -177,7 +177,8 @@ if __name__ == '__main__':
             pass
         else:
             print('The data from State: ', un_num_state.iloc[k, 0], " does not follow a normal distribution.")
-        # If certain state's data is not normally distributed, the result of this state will be ignored.
+        # If certain state's data is not normally distributed, the result of this state will be ignored since
+        # Pearson correlation coefficient may not be valid for data with non-normal distributions.
         # For the n>=20 sample number warning, since the data in this project is only from 2007-2018,
         # this warning may occur.
         for i in range(edu_att_num.shape[0]):
