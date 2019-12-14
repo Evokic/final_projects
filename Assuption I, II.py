@@ -136,9 +136,10 @@ plt.ylabel("Percentage")
 plt.title('Percentage of Poverty Population 1980 - 2017')
 plt.show()
 
-#### Analyze the poverty form 2013-2017
+#### Analyze the poverty from 2013-2017 for entire United States
 FY13_17 = poverty[(poverty['Year'] >= 2013) &(poverty['Year'] <= 2017)]
 
+# Poverty percentage histogram
 FY13_17['Perc'] = FY13_17.loc[:,'Number'] / FY13_17.loc[:,'Total']
 plt.hist(FY13_17['Perc'], 20, facecolor='blue', alpha=0.5)
 plt.axvline(FY13_17['Perc'].mean(), color='k', linestyle='dashed', linewidth=1)
@@ -147,9 +148,11 @@ plt.ylabel('Occurance')
 plt.title('Poverty Percentage Histogram')
 plt.show()
 
+#### Analyze the poverty from 2013-2017 by States
 poverty_state = FY13_17.groupby('STATE').agg('sum')[['Total', 'Number']]
 poverty_state['perc']  = get_percentage(poverty_state['Number'],poverty_state['Total'])
 
+# change full state name to abbreviation
 poverty_state['State'] = poverty_state.index
 poverty_state['abbre'] = state_abbrev(poverty_state['State'])
 poverty_state = poverty_state.set_index('abbre').sort_index(axis = 0)
@@ -168,6 +171,7 @@ edu_perc = state[['Percentage less_than_high_school 1970', 'Percentage high_scho
 
 edu_perc = edu_perc.drop(['PR', 'US'])
 
+# visualize the relationship between poverty and different degrees.
 plt.scatter(poverty_state['perc'], edu_perc['Percentage college 2013-17'])
 plt.xlabel('Poverty Percentage')
 plt.ylabel('College Degree Percentage')
