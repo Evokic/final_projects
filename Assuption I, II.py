@@ -2,7 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Assumption I
 def get_percentage(a, b):
     """This function is used to calcuate percentage. Given two data, the function will return the percentage of a and b
     :param a: Denominator to calcuate the percentage
@@ -56,15 +55,19 @@ def state_abbrev(state_name):
     }
     return state_name.map(us_state_abbrev)
 
-df = pd.read_excel("data/Education.xls")
+# read in csv file
+df = pd.read_excel("data/Education.xls")  # Education
+poverty = pd.read_csv("data/poverty.csv", dtype={"Total":'Int64', "Number":"Int64"})  # Poverty
 
+####### Assumption I
 # modify columns
 df['Total adults in 1970'] = df['Less than a high school diploma, 1970'] / (df['Percent of adults with less than a high school diploma, 1970']/100)
 df['Total adults in 1980'] = df['Less than a high school diploma, 1980'] / (df['Percent of adults with less than a high school diploma, 1980'] / 100)
 df['Total adults in 1990'] = df['Less than a high school diploma, 1990'] / (df['Percent of adults with less than a high school diploma, 1990']/100)
 df['Total adults in 2000'] = df['Less than a high school diploma, 2000'] / (df['Percent of adults with less than a high school diploma, 2000']/100)
 df['Total adults in 2013-17'] = df['Less than a high school diploma, 2013-17'] / (df['Percent of adults with less than a high school diploma, 2013-17']/100)
-# United States
+
+#### Analyze eduction for entire United States
 FY = ['1970', '1980', '1990', '2000', '2013-17']
 all = []
 for i in FY:
@@ -75,6 +78,7 @@ for i in FY:
 
     all.append([less_than_high_school, high_school, associate, college])
 
+# visualize the education trends
 all = np.asarray(all)
 label = ['less than a high school', 'high school', ' some college(1-3 years)', 'four years of college or higher']
 x = [1970, 1980, 1990, 2000, 2017]
@@ -86,7 +90,7 @@ plt.ylabel('Percentage')
 plt.title('Percentage of People receive Degree from 1970 - 2017')
 plt.show()
 
-# By States
+#### Analyze education by States
 state = df.groupby('State').sum()[['Less than a high school diploma, 1970', 'High school diploma only, 1970', 'Some college (1-3 years), 1970', 'Four years of college or higher, 1970','Total adults in 1970',
                                  'Less than a high school diploma, 1980', 'High school diploma only, 1980', 'Some college (1-3 years), 1980', 'Four years of college or higher, 1980','Total adults in 1980',
                                  'Less than a high school diploma, 1990', 'High school diploma only, 1990', 'Some college (1-3 years), 1990', 'Four years of college or higher, 1990','Total adults in 1990',
@@ -99,23 +103,27 @@ for i in FY:
     state['Percentage associate ' + i] = get_percentage(state['Some college (1-3 years), ' + i], state['Total adults in ' + i])
     state['Percentage college ' + i] = get_percentage(state['Four years of college or higher, ' + i], state['Total adults in ' + i])
 
-print(state.head())
-# sort by percentage
+# Top 5 states with the highest percentage of people have college degree
 asc_state_1970 = state.sort_values(by = 'Percentage college 1970', ascending=False)
 asc_state_1980 = state.sort_values(by = 'Percentage college 1980', ascending=False)
 asc_state_2000 = state.sort_values(by = 'Percentage college 2000', ascending=False)
 asc_state_2017 = state.sort_values(by = 'Percentage college 2013-17', ascending=False)
+print("Top 5 states with the highest percentage of people have college degree from 1970 - 2017")
+print(asc_state_1970, asc_state_1980, asc_state_2000, asc_state_2017)
 
+# Top 5 states with the highest percentage of people have less than high school degree
 desc_state_1970 = state.sort_values(by = 'Percentage less_than_high_school 1970', ascending=True)
 desc_state_1980 = state.sort_values(by = 'Percentage less_than_high_school 1980', ascending=True)
 desc_state_1990 = state.sort_values(by = 'Percentage less_than_high_school 1990', ascending=True)
 desc_state_2000 = state.sort_values(by = 'Percentage less_than_high_school 2000', ascending=True)
 desc_state_2017 = state.sort_values(by = 'Percentage less_than_high_school 2013-17', ascending=True)
+print("Top 5 states with the highest percentage of people have less than high school degree from 1970 - 2017")
+print(desc_state_1970, desc_state_1980, desc_state_1980, desc_state_1990, desc_state_2000, desc_state_2017)
 
-# Assumption II
-poverty = pd.read_csv("data/poverty.csv", dtype={"Total":'Int64', "Number":"Int64"})
+####### Assumption II
 poverty['Percentage'] = get_percentage(poverty['Number'], poverty['Total'])
 
+# visualize the relationship between poverty and education
 year = [1980, 1990, 2000, 2010, 2017]
 pov_perc = []
 for y in year:
@@ -128,20 +136,7 @@ plt.ylabel("Percentage")
 plt.title('Percentage of Poverty Population 1980 - 2017')
 plt.show()
 
-FY13_17 = poverty[(poverty['Year'] >= 2013) &(poverty['Year'] <= 2017)]
-
-edu_perc = state[['Percentage less_than_high_school 1970', 'Percentage high_school 1970',
-       'Percentage associate 1970', 'Percentage college 1970',
-       'Percentage less_than_high_school 1980', 'Percentage high_school 1980',
-       'Percentage associate 1980', 'Percentage college 1980',
-       'Percentage less_than_high_school 1990', 'Percentage high_school 1990',
-       'Percentage associate 1990', 'Percentage college 1990',
-       'Percentage less_than_high_school 2000', 'Percentage high_school 2000',
-       'Percentage associate 2000', 'Percentage college 2000',
-       'Percentage less_than_high_school 2013-17',
-       'Percentage high_school 2013-17', 'Percentage associate 2013-17',
-       'Percentage college 2013-17']]
-
+#### Analyze the poverty form 2013-2017
 FY13_17 = poverty[(poverty['Year'] >= 2013) &(poverty['Year'] <= 2017)]
 
 FY13_17['Perc'] = FY13_17.loc[:,'Number'] / FY13_17.loc[:,'Total']
@@ -158,6 +153,19 @@ poverty_state['perc']  = get_percentage(poverty_state['Number'],poverty_state['T
 poverty_state['State'] = poverty_state.index
 poverty_state['abbre'] = state_abbrev(poverty_state['State'])
 poverty_state = poverty_state.set_index('abbre').sort_index(axis = 0)
+
+edu_perc = state[['Percentage less_than_high_school 1970', 'Percentage high_school 1970',
+       'Percentage associate 1970', 'Percentage college 1970',
+       'Percentage less_than_high_school 1980', 'Percentage high_school 1980',
+       'Percentage associate 1980', 'Percentage college 1980',
+       'Percentage less_than_high_school 1990', 'Percentage high_school 1990',
+       'Percentage associate 1990', 'Percentage college 1990',
+       'Percentage less_than_high_school 2000', 'Percentage high_school 2000',
+       'Percentage associate 2000', 'Percentage college 2000',
+       'Percentage less_than_high_school 2013-17',
+       'Percentage high_school 2013-17', 'Percentage associate 2013-17',
+       'Percentage college 2013-17']]
+
 edu_perc = edu_perc.drop(['PR', 'US'])
 
 plt.scatter(poverty_state['perc'], edu_perc['Percentage college 2013-17'])
